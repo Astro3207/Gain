@@ -158,7 +158,7 @@ void initialiseModifiers()
 initialiseModifiers();
 
 //FIXME support asdon
-string __gain_version = "1.2";
+string __gain_version = "1.2.1";
 boolean __gain_setting_confirm = false;
 
 //we don't use the pirate items because mafia doesn't acquire them properly - if pirate tract is 301 in the mall, it'll try to get it from the store, and fail
@@ -220,6 +220,7 @@ void initialiseMutuallyExclusiveEffects()
 	__mutually_exclusive_effect_sets[__mutually_exclusive_effect_sets.count()] = $effects[Snarl of the Timberwolf,Scowl of the Auk,Stiff Upper Lip,Patient Smile,Quiet Determination,Arched Eyebrow of the Archmage,Wizard Squint,Quiet Judgement,Icy Glare,Wry Smile,Disco Leer,Disco Smirk,Suspicious Gaze,Knowing Smile,Quiet Desperation];
 	__mutually_exclusive_effect_sets[__mutually_exclusive_effect_sets.count()] = $effects[Song of the North,Song of Slowness,Song of Starch,Song of Sauce,Song of Bravado];
 	__mutually_exclusive_effect_sets[__mutually_exclusive_effect_sets.count()] = $effects[purple tongue,green tongue,orange tongue,red tongue,blue tongue];
+	__mutually_exclusive_effect_sets[__mutually_exclusive_effect_sets.count()] = $effects[Broken Heart, Fiery Heart, Cold Hearted, Sweet Heart, Withered Heart, Lustful Heart]; //love songs
 	
 	foreach key in __mutually_exclusive_effect_sets
 	{
