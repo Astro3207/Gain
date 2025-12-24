@@ -158,7 +158,7 @@ void initialiseModifiers()
 initialiseModifiers();
 
 //FIXME support asdon
-string __gain_version = "1.2.1";
+string __gain_version = "1.2.2";
 boolean __gain_setting_confirm = false;
 
 //we don't use the pirate items because mafia doesn't acquire them properly - if pirate tract is 301 in the mall, it'll try to get it from the store, and fail
@@ -166,6 +166,7 @@ boolean [item] __modify_blocked_items = $items[M-242,snake,sparkler,Mer-kin stro
 boolean [skill] __modify_blocked_skills;
 boolean [skill] __blocked_skills = $skills[Drench Yourself in Sweat];
 boolean [effect] __blocked_effects;
+boolean [item] __blocked_items;
 boolean [effect] __fixed_blocked_effects = $effects[cowrruption,Visions of the Deep Dark Deeps];
 boolean [string] __modifiers_to_output_as_percentages = {"combat rate":true, "initiative":true, "item drop":true, "meat drop":true};
 
@@ -175,22 +176,35 @@ boolean __setting_ignore_percentages = false;
 boolean __setting_allow_limited_buffs = false;
 int __starting_meat = -1;
 int __meat_spent = 0;
-if (my_class() == $class[turtle tamer])
-{
-	foreach s in $skills[Blessing of the Storm Tortoise,Blessing of She-Who-Was,Blessing of the War Snapper]
-		__modify_blocked_skills[s] = true;
-}
-else if (my_class() == $class[pastamancer])
-{
-	foreach t in $thralls[]
-		__modify_blocked_skills[t.skill] = true;
-}
+
+
 
 boolean [effect] __limited_effects;
-__limited_effects[to_effect("Blessing of your favorite Bird")] = true;
-__limited_effects[to_effect("Blessing of the Bird")] = true;
-__limited_effects[to_effect("Triple-Sized")] = true;
-__limited_effects[to_effect("Invisible Avatar")] = true;
+
+
+void globalSetup()
+{
+	if (my_class() == $class[turtle tamer])
+	{
+		foreach s in $skills[Blessing of the Storm Tortoise,Blessing of She-Who-Was,Blessing of the War Snapper]
+			__modify_blocked_skills[s] = true;
+	}
+	else if (my_class() == $class[pastamancer])
+	{
+		foreach t in $thralls[]
+			__modify_blocked_skills[t.skill] = true;
+	}
+	
+	__limited_effects[to_effect("Blessing of your favorite Bird")] = true;
+	__limited_effects[to_effect("Blessing of the Bird")] = true;
+	__limited_effects[to_effect("Triple-Sized")] = true;
+	__limited_effects[to_effect("Invisible Avatar")] = true;
+	
+	int current_month = format_date_time("yyyyMMdd",today_to_string(), "MM").to_int();
+	if (current_month != 9 && current_month != 10 && current_month != 11) //autumn
+		__blocked_items[$item[crystallized pumpkin spice]] = true;
+}
+globalSetup();
 
 
 static
@@ -623,6 +637,7 @@ void ModifierUpkeepEffects(ModifierUpkeepSettings settings)
 			{
 				if (!entry.it.tradeable && entry.it.available_amount() == 0)
 					continue;
+				if (__blocked_items[entry.it]) continue;
 				if (entry.it.available_amount() == 0 && !can_access_mall) continue; //no mall, no service
 				if (entry.it.tradeable && entry.it.historical_price() >= 100000) //too expensive
 					continue;
