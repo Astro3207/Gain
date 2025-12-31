@@ -158,11 +158,10 @@ void initialiseModifiers()
 initialiseModifiers();
 
 //FIXME support asdon
-string __gain_version = "1.2.3";
+string __gain_version = "1.2.4";
 boolean __gain_setting_confirm = false;
 
 //we don't use the pirate items because mafia doesn't acquire them properly - if pirate tract is 301 in the mall, it'll try to get it from the store, and fail
-boolean [item] __modify_blocked_items = $items[M-242,snake,sparkler,Mer-kin strongjuice,Mer-kin smartjuice,Mer-kin cooljuice,pirate tract,pirate pamphlet,pirate brochure,elven suicide capsule,ghost dog chow];
 boolean [skill] __modify_blocked_skills;
 boolean [skill] __blocked_skills = $skills[Drench Yourself in Sweat, Spirit of Peppermint, Spirit of Cayenne, Spirit of Garlic, Spirit of Wormwood, Spirit of Bacon Grease];
 boolean [effect] __blocked_effects;
@@ -203,6 +202,8 @@ void globalSetup()
 	int current_month = format_date_time("yyyyMMdd",today_to_string(), "MM").to_int();
 	if (current_month != 9 && current_month != 10 && current_month != 11) //autumn
 		__blocked_items[$item[crystallized pumpkin spice]] = true;
+	foreach it in $items[M-242,snake,sparkler,Mer-kin strongjuice,Mer-kin smartjuice,Mer-kin cooljuice,pirate tract,pirate pamphlet,pirate brochure,elven suicide capsule,ghost dog chow,Yummy Tummy bean]
+		__blocked_items[it] = true;
 }
 globalSetup();
 
@@ -483,7 +484,7 @@ void ModifierUpkeepEffects(ModifierUpkeepSettings settings)
 				}
 			}
 		
-			if (__modify_blocked_items[it]) continue;
+			if (__blocked_items[it]) continue;
 			if ($items[Shrieking Weasel holo-record,Power-Guy 2000 holo-record,Lucky Strikes holo-record,EMD holo-record,Superdrifter holo-record,The Pigs holo-record,Drunk Uncles holo-record] contains it && !within_nuclear_autumn) continue;
 		
 			if (it.fullness > 0 || it.inebriety > 0 || it.spleen > 0) //FIXME allow such things?
@@ -770,6 +771,11 @@ void ModifierUpkeepEffects(ModifierUpkeepSettings settings)
 			}
 			else if (entry.type == MODIFIER_UPKEEP_ENTRY_TYPE_ITEM)
 			{
+				if (__blocked_items[entry.it])
+				{
+					print_html(entry.it + " is blocked, avoiding.");
+					continue;
+				}
 				if (entry.it == $item[d12])
 				{
 					//using more than one will cause it to not get the buff
