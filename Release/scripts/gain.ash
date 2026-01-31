@@ -797,7 +797,7 @@ void ModifierUpkeepEffects(ModifierUpkeepSettings settings)
 				if (entry.s == $skill[Pull down your crepe paper phrygian cap])
 				{
 					if (have_effect($effect[Everything looks Beige]) > 0){
-						times_can_cast = 0;
+						continue;
 					} else {
 					}
 				}
