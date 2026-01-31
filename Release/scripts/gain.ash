@@ -794,7 +794,14 @@ void ModifierUpkeepEffects(ModifierUpkeepSettings settings)
 				{
 					times_can_cast = max(1, (my_soulsauce() - 1) / entry.s.soulsauce_cost());
 				}
-				
+				if (entry.s == "Pull down your crepe paper phrygian cap")
+				{
+					if (have_effect($effect[Everything looks Beige]) > 0){
+						times_can_cast = 0;
+					} else {
+					}
+				}
+
 				item [slot] saved_equipment;
 				if ($skills[CHEAT CODE: Triple Size,CHEAT CODE: Invisible Avatar] contains entry.s && !$Item[powerful glove].have_equipped())
 				{
