@@ -794,12 +794,17 @@ void ModifierUpkeepEffects(ModifierUpkeepSettings settings)
 				{
 					times_can_cast = max(1, (my_soulsauce() - 1) / entry.s.soulsauce_cost());
 				}
-				if (entry.s == $skill[Pull down your crepe paper phrygian cap])
-				{
-					if (have_effect($effect[Everything looks Beige]) > 0){
+				if (entry.s == $skill[Pull down your crepe paper phrygian cap] || entry.s == $skill[Embrace polka]){
+					if (have_effect($effect[Everything looks Beige]) > 0)
 						continue;
-					} else {
-					}
+				}
+				if (entry.s == $skill[BCZ: Dial it up to 11]){
+					if (to_int(get_property("_bczDialitupCasts")) >= 5)
+						continue;
+				}
+				if (entry.s == $skill[BCZ: Blood Bath]){
+					if (to_int(get_property("_bczBloodBathCasts")) >= 5)
+						continue;
 				}
 
 				item [slot] saved_equipment;
