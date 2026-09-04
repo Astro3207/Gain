@@ -131,7 +131,7 @@ boolean __gain_setting_confirm = false;
 boolean [item] __modify_blocked_items;
 boolean [skill] __modify_blocked_skills;
 boolean [effect] __blocked_effects;
-boolean [effect] __fixed_blocked_effects = $effects[cowrruption,Visions of the Deep Dark Deeps, Spice Haze];
+boolean [effect] __fixed_blocked_effects = $effects[cowrruption,Visions of the Deep Dark Deeps, Spice Haze,Slippery and Speedy,Legendary Pasta Eyeball];
 
 int __maximum_meat_to_spend = 100000;
 boolean __setting_silent = false;
